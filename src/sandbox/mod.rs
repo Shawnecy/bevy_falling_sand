@@ -1,6 +1,7 @@
 use bevy::{
     prelude::*,
-    render::{render_asset::RenderAssetUsages, render_resource::*, texture::ImageSampler},
+    image::ImageSampler,
+    render::{render_asset::RenderAssetUsages, render_resource::*},
     time::common_conditions::on_timer,
 };
 use std::f32::consts::PI;
@@ -74,19 +75,22 @@ pub fn spawn_sandbox(
     };
 
     commands
-        .spawn(Sandbox::new(
-            x_chunks,
-            y_chunks,
-            SANDBOX_CHUNK_WIDTH,
-            SANDBOX_CHUNK_HEIGHT,
-        ))
-        .insert(SpriteBundle {
-            texture: image_handle,
-            transform: Transform {
+        .spawn(
+            Sandbox::new(
+                x_chunks,
+                y_chunks,
+                SANDBOX_CHUNK_WIDTH,
+                SANDBOX_CHUNK_HEIGHT,
+            ))
+        .insert((
+            Sprite {
+                image: image_handle,
+                ..Default::default()
+            },
+            Transform {
                 translation: Vec3::new(0.0, 0.0, 1.0),
                 scale: Vec3::new(8.0, 8.0, 1.0),
                 rotation: Quat::from_euler(EulerRot::XYZ, 0.0, PI, PI),
             },
-            ..Default::default()
-        });
+        ));
 }
